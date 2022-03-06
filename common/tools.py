@@ -87,16 +87,3 @@ def get_diagonal_averaging(mat):
         else:
             d.append(0)
     return np.array(d)
-
-
-def diagonal_avg(data):
-    a = data
-    diags = [a[::-1, :].diagonal(i) for i in range(-a.shape[0] + 1, a.shape[1])]
-    # Now back to the original array to get the upper-left-to-lower-right diagonals,
-    # starting from the right, so the range needed for shape (x,y) was y-1 to -x+1 descending.
-    diags.extend(a.diagonal(i) for i in range(a.shape[1] - 1, -a.shape[0], -1))
-    # Another list comp to convert back to Python lists from numpy arrays, # so it prints what you requested.
-    print([n.tolist() for n in diags])
-
-# x= np.arange(0,16).reshape(4,4)
-# diagonal_avg(x)
