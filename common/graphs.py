@@ -33,15 +33,15 @@ def all_graphs(y1, y2, y3):
     g2 = axs[1]
     g3 = axs[2]
 
-    g1.set_title('All Data')
+    g1.set_title('EEG Signal Data')
     g1.plot(y1, color='blue', label='EEG Signal Data')
     g1.set_ylim([-40, 40])
 
-    g2.set_title('Filtered Data')
+    g2.set_title('Noise Free Data')
     g2.plot(y2, color='blue', label='Noise Free Data')
     g2.set_ylim([-40, 40])
 
-    g3.set_title('Noise Data')
+    g3.set_title('Noise')
     g3.plot(y3, color='blue', label='Noise')
     g3.set_ylim([-40, 40])
 
