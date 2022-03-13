@@ -1,10 +1,10 @@
 import numpy as np
 import pandas as pd
 
-from config import SIZE, PATH, COL, COLS, ROWS
+from config import SIZE, PATH, COLS, ROWS
 
 
-def create_matrix_file():
+def create_matrix_file(COL):
     file = pd.read_csv(PATH)  # (37481, 15)
     data = file.iloc[0:SIZE, COL]  # (37481,) channel 0 data (single channel data)
     print("------MAT------")
@@ -59,6 +59,9 @@ def get_tms_tmr(matrix, result):
             tmr.iloc[:, i] = 0
         else:
             tms.iloc[:, i] = 0
+    print(matrix)
+    print(tms)
+    print(tmr)
     return tms, tmr
 
 
@@ -68,22 +71,28 @@ def get_diagonal_averaging(mat):
     M = SIZE
     d = []
     for n in range(1, M + 1):
-        print(n)
         if 1 >= n and n < N:
+            print(n, "A")
             s = 0
-            for i in range(0, n):
-                s += mat.iloc[i, (n - 1) - i + 1]
+            for i in range(1, n + 1):
+                print(mat.iloc[i - 1, (n - 1) - i + 1], sep=" ")
+                s += mat.iloc[i - 1, (n - 1) - i + 1]
             d.append(s / n)
         elif N >= n and n <= K:
+            print(n, "B")
             s = 0
-            for i in range(0, N):
-                s += mat.iloc[i, (n - 1) - i + 1]
+            for i in range(1, N + 1):
+                print(mat.iloc[i - 1, (n - 1) - i + 1], sep=" ")
+                s += mat.iloc[i - 1, (n - 1) - i + 1]
             d.append(s / N)
         elif K < n and n <= M:
+            print(n, "C")
             s = 0
-            for i in range((n - K + 1), (M - K + 1)):
-                s += mat.iloc[i, (n - 1) - i + 1]
+            for i in range((n - K + 1), (M - K + 1) + 1):
+                print(mat.iloc[i - 1, (n - 1) - i + 1], sep=" ")
+                s += mat.iloc[i - 1, (n - 1) - i + 1]
             d.append(s / (M - n + 1))
         else:
+            print(n, "D")
             d.append(0)
     return np.array(d)

@@ -47,3 +47,16 @@ def all_graphs(y1, y2, y3):
 
     fig.subplots_adjust(hspace=0.8)
     plt.show()
+
+
+def combined_graph(y1, y2, y3):
+    # plt.ylim([-40, 40])
+    n = np.size(y1)
+    x = range(0, n)
+
+    title = ''
+    plt.plot(x, np.array(y1), 'r')  # plotting t, a separately
+    plt.plot(x, np.array(y2), 'b')  # plotting t, b separately
+    # plt.plot(x, np.array(y3), 'g')  # plotting t, c separately
+    plt.title(title)
+    plt.show()
