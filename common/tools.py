@@ -1,24 +1,23 @@
+import math
+
 import numpy as np
 import pandas as pd
 
-from config import SIZE, PATH, COLS, ROWS
+from common.graphs import all_graphs
+from config import SIZE, PATH, COLS, ROWS, OUTPUT_PATH
 
 
 def create_matrix_file(COL):
     file = pd.read_csv(PATH)  # (37481, 15)
     data = file.iloc[0:SIZE, COL]  # (37481,) channel 0 data (single channel data)
-    print("------MAT------")
     mat = pd.DataFrame()
     for i in range(COLS):
-        print('matrix', i)
         tmp = data.iloc[i:(i + ROWS)].to_numpy()
         mat = pd.concat([mat, pd.Series(tmp)], axis=1)
     mat.to_csv('./data/output/mat' + ".csv", index=False)
 
-    print("------ACM------")
     amc = []
     for i in range(COLS):
-        print('amc', i)
         vector = mat.iloc[:, i]
         activity = np.var(np.array(vector))
         mc = hjorth(vector)
@@ -54,14 +53,16 @@ def get_tms_tmr(matrix, result):
     tmr = matrix.copy()
     mi = np.bincount(result).argmax()
     n = np.size(result)
-    for i in range(n):
+    k = math.ceil(ROWS / 2)
+    for i in range(0, k):
+        tmr.iloc[:, i] = 0
+    for i in range(k, n - k):
         if result[i] == mi:
             tmr.iloc[:, i] = 0
         else:
             tms.iloc[:, i] = 0
-    print(matrix)
-    print(tms)
-    print(tmr)
+    for i in range(n - k, n):
+        tmr.iloc[:, i] = 0
     return tms, tmr
 
 
@@ -71,28 +72,31 @@ def get_diagonal_averaging(mat):
     M = SIZE
     d = []
     for n in range(1, M + 1):
-        if 1 >= n and n < N:
-            print(n, "A")
+        if 1 <= n <= N:
             s = 0
             for i in range(1, n + 1):
-                print(mat.iloc[i - 1, (n - 1) - i + 1], sep=" ")
                 s += mat.iloc[i - 1, (n - 1) - i + 1]
             d.append(s / n)
-        elif N >= n and n <= K:
-            print(n, "B")
+        elif N < n <= K:
             s = 0
             for i in range(1, N + 1):
-                print(mat.iloc[i - 1, (n - 1) - i + 1], sep=" ")
                 s += mat.iloc[i - 1, (n - 1) - i + 1]
             d.append(s / N)
-        elif K < n and n <= M:
-            print(n, "C")
+        elif K < n <= M:
             s = 0
             for i in range((n - K + 1), (M - K + 1) + 1):
-                print(mat.iloc[i - 1, (n - 1) - i + 1], sep=" ")
                 s += mat.iloc[i - 1, (n - 1) - i + 1]
             d.append(s / (M - n + 1))
         else:
-            print(n, "D")
             d.append(0)
     return np.array(d)
+
+
+def show_results(COL):
+    file = pd.read_csv(PATH)
+    data = file.iloc[0:SIZE, COL]
+    filtered_path = OUTPUT_PATH + 'filtered.csv'
+    noise_path = OUTPUT_PATH + 'noise.csv'
+    filtered_data = pd.read_csv(filtered_path)
+    noise = pd.read_csv(noise_path)
+    all_graphs(np.array(data), np.array(filtered_data), np.array(noise))
