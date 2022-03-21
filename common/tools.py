@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 from common.graphs import all_graphs
-from config import SIZE, PATH, COLS, ROWS, OUTPUT_PATH
+from config import SIZE, PATH, COLS, ROWS, OUTPUT_PATH, k
 
 
 def create_matrix_file(COL):
@@ -53,7 +53,6 @@ def get_tms_tmr(matrix, result):
     tmr = matrix.copy()
     mi = np.bincount(result).argmax()
     n = np.size(result)
-    k = math.ceil(ROWS / 2)
     for i in range(0, k):
         tmr.iloc[:, i] = 0
     for i in range(k, n - k):
