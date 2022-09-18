@@ -20,17 +20,19 @@ def all_graphs(y1, y2, y3):
     g2 = axs[1]
     g3 = axs[2]
 
-    g1.set_title('Eye blink contaminated EEG signal')
+    g1.set_title('Eye blink contaminated EEG signal', weight='bold')
     g1.plot(y1, color='blue', label='Eye blink contaminated EEG signal')
     g1.set_ylim([-40, 40])
 
-    g2.set_title('Extracted EEG component')
+    g2.set_title('Extracted EEG component', weight='bold')
     g2.plot(y2, color='blue', label='Extracted EEG component')
     g2.set_ylim([-40, 40])
 
-    g3.set_title('Extracted eye blink component')
+    g3.set_title('Extracted eye blink component', weight='bold')
     g3.plot(y3, color='blue', label='Extracted eye blink component')
     g3.set_ylim([-40, 40])
 
     fig.subplots_adjust(hspace=0.8)
     plt.show()
+    fig.savefig('result.pdf')
+    fig.savefig('result.png')
