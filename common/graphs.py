@@ -33,6 +33,5 @@ def all_graphs(y1, y2, y3):
     g3.set_ylim([-40, 40])
 
     fig.subplots_adjust(hspace=0.8)
-    plt.show()
     fig.savefig('result.pdf')
     fig.savefig('result.png')
