@@ -1,5 +1,3 @@
-import math
-
 PATH = './data/filtered_data/filtered_s01_ex01_s01.csv'
 OUTPUT_PATH = './data/output/'
 SIZE = 24000
