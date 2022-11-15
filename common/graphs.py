@@ -14,23 +14,25 @@ def plot_scatters(data, title, label_x, label_y):
 
 
 def all_graphs(y1, y2, y3):
-    fig, axs = plt.subplots(3, figsize=(24, 8))
-
+    fig, axs = plt.subplots(3, figsize=(24, 10))
+    p = 30
+    fs = 24
     g1 = axs[0]
     g2 = axs[1]
     g3 = axs[2]
 
-    g1.set_title('Eye blink contaminated EEG signal', weight='bold')
+    g1.set_title('Eye blink contaminated EEG signal', weight='bold', fontdict={'fontsize': fs})
+
     g1.plot(y1, color='blue', label='Eye blink contaminated EEG signal')
-    g1.set_ylim([-40, 40])
+    g1.set_ylim([-p, p])
 
-    g2.set_title('Extracted EEG component', weight='bold')
+    g2.set_title('Extracted EEG component', weight='bold', fontdict={'fontsize': fs})
     g2.plot(y2, color='blue', label='Extracted EEG component')
-    g2.set_ylim([-40, 40])
+    g2.set_ylim([-p, p])
 
-    g3.set_title('Extracted eye blink component', weight='bold')
+    g3.set_title('Extracted eye blink component', weight='bold', fontdict={'fontsize': fs})
     g3.plot(y3, color='blue', label='Extracted eye blink component')
-    g3.set_ylim([-40, 40])
+    g3.set_ylim([-p, p])
 
     fig.subplots_adjust(hspace=0.8)
     fig.savefig('result.pdf')
